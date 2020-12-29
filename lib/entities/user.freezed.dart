@@ -8,17 +8,25 @@ part of 'user.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+User _$UserFromJson(Map<String, dynamic> json) {
+  return _User.fromJson(json);
+}
 
 /// @nodoc
 class _$UserTearOff {
   const _$UserTearOff();
 
 // ignore: unused_element
-  _User call({String name, int age}) {
+  _User call({@required String name, @required int age}) {
     return _User(
       name: name,
       age: age,
     );
+  }
+
+// ignore: unused_element
+  User fromJson(Map<String, Object> json) {
+    return User.fromJson(json);
   }
 }
 
@@ -31,6 +39,7 @@ mixin _$User {
   String get name;
   int get age;
 
+  Map<String, dynamic> toJson();
   $UserCopyWith<User> get copyWith;
 }
 
@@ -90,9 +99,18 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
   }
 }
 
+@JsonSerializable()
+
 /// @nodoc
 class _$_User implements _User {
-  _$_User({this.name, this.age});
+  _$_User({@required this.name, @required this.age})
+      : assert(name != null),
+        assert(age != null),
+        assert(name.isNotEmpty, 'name cannot be empty'),
+        assert(age >= 0);
+
+  factory _$_User.fromJson(Map<String, dynamic> json) =>
+      _$_$_UserFromJson(json);
 
   @override
   final String name;
@@ -123,10 +141,17 @@ class _$_User implements _User {
   @override
   _$UserCopyWith<_User> get copyWith =>
       __$UserCopyWithImpl<_User>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_UserToJson(this);
+  }
 }
 
 abstract class _User implements User {
-  factory _User({String name, int age}) = _$_User;
+  factory _User({@required String name, @required int age}) = _$_User;
+
+  factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
   @override
   String get name;
